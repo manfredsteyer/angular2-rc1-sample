@@ -1,0 +1,111 @@
+<h1>Flug suchen! (Imp.)</h1>
+
+
+<form [ngFormModel]="filter">
+
+    <div *ngIf="filter.hasError('route')">
+        Diese Route macht doch gar keinen Sinn!!
+    </div>
+    
+<!--    
+    <h2>Form Generator</h2>
+    
+    
+    <div *ngFor="let entry of formMetaData" class="form-group">
+        <label>{{entry.label}}</label>
+        <input [ngControl]="entry.fieldName" class="form-control">
+    </div>
+-->    
+    <h2>Static Form</h2>
+    <div class="form-group">
+        <label>Von</label>
+        <input class="form-control" ngControl="von" [ngClass]="{'ng-pending': filter.controls.von.pending}">
+                
+        <div *ngIf="!filter.controls.von.valid || !filter.controls.von.pending">
+            Eingaben sind Fehlerhaft!!
+        </div>                
+        
+        <div *ngIf="filter.controls.von.hasError('required')">
+            Das ist doch ein Pflichtfeld!
+        </div>                
+        
+        <div *ngIf="filter.controls.von.hasError('minlength')">
+            Das müssen doch min. 3 Zeichen sein!
+        </div>                
+
+        <div *ngIf="filter.controls.von.hasError('maxlength')">
+            Das dürfen doch max. 50 Zeichen sein!
+        </div>     
+        
+        <div *ngIf="filter.controls.von.hasError('ort')">
+            Dieser Ort wird doch nicht angeflogen!
+        </div>     
+
+
+        <div *ngIf="filter.controls.von.hasError('ortAsync')">
+            Dieser Flug ist doch ausgebucht!!
+        </div>     
+        
+        <div *ngIf="filter.controls.von.pending">
+            <marquee>
+                Validiere doch Eingaben !!!                
+            </marquee>
+        </div>     
+                           
+        <div *ngIf="filter.controls.von.hasError('pattern')">
+            Das darf doch nur aus Buchstaben und Zahlen bestehen!
+        </div>                
+        
+    </div>    
+
+    <div class="form-group">
+        <label>Nach</label>
+        <input class="form-control" ngControl="nach">
+    </div>    
+
+</form>
+
+<div class="form-group">
+    <button [disabled]="!filter.valid" class="btn btn-default" (click)="search()">Suchen!</button>
+</div>    
+
+<!--
+    xs: Extra Small: Handy
+    sm: Small: iPad
+    md: Medium: Laptop
+    lg: Large: Desktop
+-->
+<div class="row">
+<div *ngFor="let flug of fluege" class="col-xs-12 col-sm-4 col-md-3">
+    <flug-card
+        [item]="flug"
+        [(selectedItem)]="selectedFlug">
+    </flug-card>
+
+<!--
+        [selectedItem]="selectedFlug"
+        (selectedItemChange)="selectedFlug = $event"
+-->
+
+</div>    
+</div>
+
+<!--
+<table class="table table-striped">
+    
+
+    <tr *ngFor="let flug of fluege" [class.active]="flug == selectedFlug">
+        <td>{{flug.id}}</td>
+        <td>{{flug.datum.substr(0,10)}}</td>
+        <td>{{flug.abflugort | ort:'short' | uppercase }}</td>
+        <td>{{flug.zielort | ort:'long' }}</td>
+        <td><a (click)="select(flug)">Auswählen</a></td>
+    </tr>
+    
+</table>    
+-->
+<div class="row">
+<pre>
+    {{ selectedFlug | json  }}
+</pre>    
+</div>
